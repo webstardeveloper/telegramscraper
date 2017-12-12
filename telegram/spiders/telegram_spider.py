@@ -63,7 +63,13 @@ class TelegramSpider(scrapy.Spider):
                 pass
 
             try:
-                
+                source = self.driver.page_source.encode("utf8")
+                token = 'class="im_history_message_wrap"'
+                token = token.encode("utf8")
+                tokens = source.split(token)
+                if len(tokens) > 510:
+                    source = tokens[0] + " " + token + " " + token.join(tokens[1:500]) + " " + token + " " +  tokens[-1]
+                tree = html.fromstring(source)
                 users = tree.xpath('//div[@class="im_history_message_wrap"]//a[contains(@class, "im_message_author")]')
                 elements = self.driver.find_elements_by_xpath('//div[@class="im_history_message_wrap"]//a[contains(@class, "im_message_author")]')
             except Exception as e:
