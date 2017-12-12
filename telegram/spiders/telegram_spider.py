@@ -96,6 +96,14 @@ class TelegramSpider(scrapy.Spider):
                             print "#" * 20
                             print username
 
+                            if len(self.user_name) > 20:
+                                print "ppppppppppppppppppppppppppppppppppppppppppp"
+                                index += 1
+                                text = "\n".join(self.user_name)
+                                fp = open("res_%d.json" % index, "wb")
+                                fp.write(text)
+                                fp.close()
+                                self.user_name = []
                         self.driver.find_element_by_xpath('//div[@class="modal_close_wrap"]').click()
                     except Exception as e: 
                         print(e)
